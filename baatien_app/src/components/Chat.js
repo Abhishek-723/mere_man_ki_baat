@@ -1,9 +1,10 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useRef} from 'react'
 import { auth, db } from '../firebase';
 import SendMessage from './SendMessage';
 import SignOut from './SignOut'
 
 function Chat() {
+    const scroll = useRef();
     const [messages, setMessages] = useState([]);
     useEffect(()=>{
         db.collection('messages').orderBy('createdAt').limit(25).onSnapshot(snapshot=>{
@@ -22,9 +23,10 @@ function Chat() {
                   </div>
                   </div>
             ))}
+           </div>
+            <SendMessage scroll={scroll} />
+            <div ref={scroll}></div>
             </div>
-            <SendMessage/>
-        </div>
     )
 }
 
